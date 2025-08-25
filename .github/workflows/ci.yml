@@ -14,28 +14,15 @@ jobs:
       - name: Install tools
         uses: DeterminateSystems/nix-installer-action@main
 
-      - name: Cache ccache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ccache
-          key: ccache-${{ runner.os }}-${{ hashFiles('**/*.c', '**/*.cpp', '**/*.h', '**/*.hpp', '**/CMakeLists.txt') }}
-          restore-keys: |
-            ccache-${{ runner.os }}
-
       - name: Configure
         run: |
           nix develop
           cmake -S . -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=Debug \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-          -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Build
         run: cmake --build build --parallel
 
       - name: Execute
         run: ./bin/r-type_server
-
-      - name: ccache stats
-        run: ccache -s || true
