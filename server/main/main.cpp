@@ -10,17 +10,16 @@
 #include <app/CalculatorService.hpp>
 #include <adapters/logger/ConsoleLogger.hpp>
 
+#include <SFML/Graphics.hpp>
+
 
 int main(void)
 {
-    core::Math math;
-    
-    adapters::ConsoleLogger consoleLogger;
-    
-    app::CalculatorService calculatorService(math, consoleLogger);
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
 
-    calculatorService.addAndLog(2, 3);
-    std::cout << "Hello world Server" << std::endl;
+    while(window.isOpen()) {
+        
+    }
 
     return 0;
 }
